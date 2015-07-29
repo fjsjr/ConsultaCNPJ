@@ -168,14 +168,6 @@ class ConsultaReceita {
         // IMPORTANTE: sem o parametro RETURNTRANSFER para esta chamada de curl.
         $imgsource = curl_exec($ch);
         curl_close($ch);
-/*
-        // faz a chamada Curl que gera a imagem de captcha para consulta de CPF ou CNPJ conforme o parâmetro passado
-        $ch = curl_init($this->url);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookieFile);
-        curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:8.0) Gecko/20100101 Firefox/8.0');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-*/
 
         $imgsource = curl_exec($ch);
         curl_close($ch);
