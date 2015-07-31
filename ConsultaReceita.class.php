@@ -115,6 +115,7 @@ class ConsultaReceita {
     define('HTTPCOOKIELOCAL',$this -> cookiePath);
   }
 
+
   private function verificarCaptcha($tipoConsulta){
 
     $this->tipoConsulta = strtolower($tipoConsulta);
@@ -138,6 +139,7 @@ class ConsultaReceita {
     }
 
   }
+
   /**
   * Verifica se qual o tipo consulta CNPJ ou CPF e define url de acesso
   *
@@ -153,27 +155,41 @@ class ConsultaReceita {
 
     if(self::verificarCaptcha($Request)){
 
-        if(!file_exists($this->cookieFile)){
+      if(!file_exists($this->cookieFile)){
 
-          $file = fopen($this->cookieFile, 'w');
+        $file = fopen($this->cookieFile, 'w');
 
-          fclose($file);
-        }
+        fclose($file);
+      }
 
-        $ch = curl_init($this->url);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookieFile);
-        //  aqui será gravada as chaves de sessão
-        curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
-        //  aqui será gravada as chaves de sessão
-        // IMPORTANTE: sem o parametro RETURNTRANSFER para esta chamada de curl.
-        $imgsource = curl_exec($ch);
-        curl_close($ch);
 
-        $imgsource = curl_exec($ch);
-        curl_close($ch);
 
-        // se tiver imagem , mostra*/
-        echo $this->url;
+      $ch = curl_init($this->url);
+      $options = array(
+        CURLOPT_COOKIEJAR  => $this->cookieFile,
+        CURLOPT_COOKIEFILE => $this->cookieFile,
+        CURLOPT_HTTPHEADER => array(
+          "Pragma: no-cache",
+          "Origin: $this->domain",
+          "Host: www.receita.fazenda.gov.br",
+          "User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:32.0) Gecko/20100101 Firefox/32.0",
+          "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3",
+          "Accept-Encoding: gzip, deflate",
+          "Cookie: flag=1; $this->cookieFile",
+          "Connection: keep-alive"
+        ),
+      );
+      curl_setopt_array($ch, $options);
+      $img = curl_exec($ch);
+      curl_close($ch);
+
+      if(@imagecreatefromstring($img)==false)
+      throw new Exception('Não foi possível capturar o captcha');
+      return array(
+        'cookie' => $cookie,
+        'captchaBase64' => 'data:image/png;base64,' . base64_encode($img)
+      );
 
 
     }else{

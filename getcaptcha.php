@@ -3,5 +3,5 @@ require_once("ConsultaReceita.class.php");
 $tipo_consulta = $_GET['tipo_consulta'];
 
 $a = new ConsultaReceita();
-echo ($a->exibirCaptcha($tipo_consulta));
+$a->exibirCaptcha($tipo_consulta);
 ?>
