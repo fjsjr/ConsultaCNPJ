@@ -1,10 +1,10 @@
 <?php
-// Criado por Marcos Peli
+// Criado por Marcos Peli -
+// Atualizado por Fernando Júnior (04/08/2015)
 // ultima atualização 05/06/2015 - correçâo ref alteraçâo parametros consulta CPF da receita de 03/06/2015
 // o objetivo dos scripts deste repositório é integrar consultas de CNPJ e CPF diretamente da receita federal
 // para dentro de aplicações web que necessitem da resposta destas consultas para proseguirem, como e-comerce e afins.
 
-require('funcoes.php');
 require('ConsultaReceita.class.php');
 
 $a = new ConsultaReceita();

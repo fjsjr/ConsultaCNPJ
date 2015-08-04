@@ -1,12 +1,12 @@
 <?php
-/* @const Default CAMINHO RAIZ. */
 /**
 * Classe para controle de login e permissões de usuário
 *
 * (PHP 4, PHP 5)
 *
 * @author Fernando Junior <fernando.jr@fjrdesigner.com.br>
-* @link http://fjrdesigner.com.br/
+* @link https://github.com/fjsjr/ConsultaCNPJ
+*
 *
 * @version v1.0
 *
@@ -15,21 +15,13 @@
 class ConsultaReceita {
 
   /**
-  * Inicia a sessão se necessário?
-  *
-  * @var boolean
-  * @since v1.0
-  */
-  var $iniciaSessao = true;
-
-  /**
   * Pasta do aonde será armazenado o cookie
+  *  (alterar para a pasta necessária)
   *
   * @var string
   * @since v1.0
   */
   var $cookiePath = "cookies/";
-
 
   /**
   * Dominio da receita federal
@@ -40,7 +32,7 @@ class ConsultaReceita {
   var $domain = 'http://www.receita.fazenda.gov.br';
 
   /**
-  * Dominio da receita federal
+  * arquivo da solicitação (alterer caso o sitema mude a path) CNPJ
   *
   * @var string
   * @since v1.0
@@ -48,7 +40,7 @@ class ConsultaReceita {
   var $path = '/pessoajuridica/cnpj/cnpjreva/Cnpjreva_Solicitacao2.asp';
 
   /**
-  * Pasta do Captcha para exibir CNPJ
+  * arquivo do captcha CNPJ
   *
   * @var string
   * @since v1.0
@@ -57,7 +49,7 @@ class ConsultaReceita {
 
 
   /**
-  * Pasta do Captcha para exibir CPF
+  * arquivo do captcha CPF
   *
   * @var string
   * @since v1.0
@@ -65,7 +57,7 @@ class ConsultaReceita {
   var $captchaCPF = '/Aplicacoes/ATCTA/CPF/captcha/gerarCaptcha.asp';
 
   /**
-  * Arquivo de envio da consulta CPF
+  * arquivo da solicitação (alterer caso o sitema mude a path)
   *
   *@var String
   *@since v1.0
@@ -73,7 +65,7 @@ class ConsultaReceita {
   var $consultaCPF = '/Aplicacoes/ATCTA/CPF/ConsultaPublicaExibir.asp';
 
   /**
-  * Url selecionada para consulta
+  * Url selecionada para consulta (muda de acordo com o tipo de requisição (cnpj e cpf) )
   *
   * @var String
   * @since v1.0
@@ -115,7 +107,7 @@ class ConsultaReceita {
 
   /**
   *
-  * Dados a serem selecionados no site da receita
+  * Dados a serem selecionados no HTML da respota da receita + indices do array de resposta
   *
   * @var Array
   * @since v1.0
@@ -123,72 +115,72 @@ class ConsultaReceita {
 
   var 	$campos = array(
     'CamposCNPJ' => array(
-      'NÚMERO DE INSCRIÇÃO',
-      'DATA DE ABERTURA',
-      'NOME EMPRESARIAL',
-      'TÍTULO DO ESTABELECIMENTO (NOME DE FANTASIA)',
-      'CÓDIGO E DESCRIÇÃO DA ATIVIDADE ECONÔMICA PRINCIPAL',
-      'CÓDIGO E DESCRIÇÃO DAS ATIVIDADES ECONÔMICAS SECUNDÁRIAS',
-      'CÓDIGO E DESCRIÇÃO DA NATUREZA JURÍDICA',
-      'LOGRADOURO',
-      'NÚMERO',
-      'COMPLEMENTO',
-      'CEP',
-      'BAIRRO/DISTRITO',
-      'MUNICÍPIO',
-      'UF',
-      'ENDEREÇO ELETRÔNICO',
-      'TELEFONE',
-      'ENTE FEDERATIVO RESPONSÁVEL (EFR)',
-      'SITUAÇÃO CADASTRAL',
-      'DATA DA SITUAÇÃO CADASTRAL',
-      'MOTIVO DE SITUAÇÃO CADASTRAL',
-      'SITUAÇÃO ESPECIAL',
-      'DATA DA SITUAÇÃO ESPECIAL'
+        'NÚMERO DE INSCRIÇÃO',
+        'DATA DE ABERTURA',
+        'NOME EMPRESARIAL',
+        'TÍTULO DO ESTABELECIMENTO (NOME DE FANTASIA)',
+        'CÓDIGO E DESCRIÇÃO DA ATIVIDADE ECONÔMICA PRINCIPAL',
+        'CÓDIGO E DESCRIÇÃO DAS ATIVIDADES ECONÔMICAS SECUNDÁRIAS',
+        'CÓDIGO E DESCRIÇÃO DA NATUREZA JURÍDICA',
+        'LOGRADOURO',
+        'NÚMERO',
+        'COMPLEMENTO',
+        'CEP',
+        'BAIRRO/DISTRITO',
+        'MUNICÍPIO',
+        'UF',
+        'ENDEREÇO ELETRÔNICO',
+        'TELEFONE',
+        'ENTE FEDERATIVO RESPONSÁVEL (EFR)',
+        'SITUAÇÃO CADASTRAL',
+        'DATA DA SITUAÇÃO CADASTRAL',
+        'MOTIVO DE SITUAÇÃO CADASTRAL',
+        'SITUAÇÃO ESPECIAL',
+        'DATA DA SITUAÇÃO ESPECIAL'
     ),
     'indicesCNPJ' => array(
-      'INCRICAO',
-      'DT_ABERTURA',
-      'RZ_SOCIAL',
-      'FANTASIA',
-      'COD_ATV_PRINCIPAL',
-      'COD_ATV_SECUNDARIAS',
-      'NATU_JURIDICA',
-      'LOGRADOURO',
-      'NUMERO',
-      'COMPLEMENTO',
-      'CEP',
-      'BAIRRO',
-      'MUNICIPIO',
-      'UF',
-      'EMAIL',
-      'TEL',
-      'EFR',
-      'SIT_CADASTRAL',
-      'DT_SIT_CADASTRAL',
-      'MT_SIT_CADASTRAL',
-      'ST_ESPECIAL',
-      'DT_ST_ESPECIAL',
-      'status'
+        'INCRICAO',
+        'DT_ABERTURA',
+        'RZ_SOCIAL',
+        'FANTASIA',
+        'COD_ATV_PRINCIPAL',
+        'COD_ATV_SECUNDARIAS',
+        'NATU_JURIDICA',
+        'LOGRADOURO',
+        'NUMERO',
+        'COMPLEMENTO',
+        'CEP',
+        'BAIRRO',
+        'MUNICIPIO',
+        'UF',
+        'EMAIL',
+        'TEL',
+        'EFR',
+        'SIT_CADASTRAL',
+        'DT_SIT_CADASTRAL',
+        'MT_SIT_CADASTRAL',
+        'ST_ESPECIAL',
+        'DT_ST_ESPECIAL',
+        'status'
     ),
     'CamposCPF' => array(
-      'No do CPF:',
-      'Nome da Pessoa Física:',
-      'Data de Nascimento:',
-      'Situação Cadastral:',
-      'Data da Inscrição:',
-      'Comprovante emitido às:',
-      'status',
+        'No do CPF:',
+        'Nome da Pessoa Física:',
+        'Data de Nascimento:',
+        'Situação Cadastral:',
+        'Data da Inscrição:',
+        'Comprovante emitido às:',
+        'status',
     ),
     'indicesCPF' => array(
-      'CPF',
-      'NOME',
-      'DT_NASC',
-      'ST_CADASTRAL',
-      'DT_INSCRICAO',
-      'COMPROVANTE',
-      'i',
-      'status',
+        'CPF',
+        'NOME',
+        'DT_NASC',
+        'ST_CADASTRAL',
+        'DT_INSCRICAO',
+        'COMPROVANTE',
+        'i',
+        'status',
     ),
   );
 
@@ -246,10 +238,27 @@ class ConsultaReceita {
 
   }
 
+  /**
+  * Função para selecionar dados do arquivo html
+  *
+  * @access private
+  * @since v1.0
+  * @uses self::selecionaDados($inicio,$fim,$total)
+  *
+  * @param String $inicio
+  * @param String $fim
+  * @param String $total
+  * @return Array
+  */
+  private function selecionaDados($inicio,$fim,$total){
 
+    $interesse = str_replace($inicio,'',str_replace(strstr(strstr($total,$inicio),$fim),'',strstr($total,$inicio)));
+    return($interesse);
+
+  }
 
   /**
-  * Exibe Captcha de acesso para consulta na receita
+  * Exibe Captcha de acesso para consulta na receita tanto cpf quanto cnpj
   *
   * @access public
   * @since v1.0
@@ -257,6 +266,7 @@ class ConsultaReceita {
   *
   * @param String $tipoConsulta
   * @return Imagem do Captcha || boolean
+  * @todo mudar para exibição de imagem de erro oo inves de uma mensagem
   */
   public function exibirCaptcha($tipoConsulta){
 
@@ -310,24 +320,19 @@ class ConsultaReceita {
 
   }
 
+
   /**
-  * Função para selecionar dados do arquivo html
+  * faz a requisiçao ao site e as devidas alterações no cookie
   *
   * @access private
   * @since v1.0
-  * @uses self::selecionaDados($inicio,$fim,$total)
+  * @uses ConsultaReceita->doRequest($cookieFile, $cookieFile_fopen)
   *
-  * @param String $inicio
-  * @param String $fim
-  * @param String $total
-  * @return Array
+  * @param String $cookieFile Arquivo do cookie
+  * @param String $cookieFile_fopen arquivo do cookie aberto
+  * @return Array $request (com a pagina e o cookie para acesso)
+  * @todo mudar para exibição de imagem de erro oo inves de uma mensagem
   */
-  private function selecionaDados($inicio,$fim,$total){
-
-    $interesse = str_replace($inicio,'',str_replace(strstr(strstr($total,$inicio),$fim),'',strstr($total,$inicio)));
-    return($interesse);
-
-  }
 
   private function doRequest($cookieFile, $cookieFile_fopen){
     if(!file_exists($cookieFile)){
@@ -351,10 +356,6 @@ class ConsultaReceita {
 
       return $Request = array('pagina' => $conteudo, 'cookie' => $cookie,);
 
-      /*CPF SEM flag		// constroe o parâmetro de sessão que será passado no próximo curl
-      $cookie = $sessionName.'='.$sessionId.';
-      */
-
     }
 
   }
@@ -362,13 +363,15 @@ class ConsultaReceita {
 
 
   /**
-  * Exibe Captcha de acesso para consulta na receita
+  * Faz a requisição ao site da receita e retorna o $html para a verificação
   *
   * @access public
   * @since v1.0
-  * @uses ConsultaReceita->exibirCaptcha($tipoConsulta)
+  * @uses ConsultaReceita->doRequestCNPJ($tipoConsulta)
   *
-  * @param String $tipoConsulta
+  * @param String $cnpj
+  * @param String $captcha
+  * @param String $request (nesse caso semore será cnpj)
   * @return Imagem do Captcha || boolean
   */
 
@@ -425,15 +428,16 @@ class ConsultaReceita {
 
 
 /**
-* Função para realizar a requizição dos dados ao site da receita (pesoa física)
+* Função para realizar a requizição dos dados ao site da receita (pessoa física)
 *
-* @access private
+* @access public
 * @since v1.0
-* @uses self::doRequestCPF($inicio,$fim,$total)
+* @uses self::doRequestCPF($cpf, $dtnasc, $captcha, $request = 'cpf')
 *
 * @param String $cpf
 * @param String $dtnasc
-* @param String $captca
+* @param String $captcha
+* @param String $request (nesse caso semore será cpf)
 * @return Array
 */
 
@@ -476,6 +480,18 @@ return $html;
 
 }
 
+
+
+/**
+* Função para varrer o html do site da receita e transformar os dados requisitados em array
+*
+* @access public
+* @since v1.0
+* @uses self::parseHtmlCNPJ($html)
+*
+* @param String $html
+* @return Array
+*/
 public function parseHtmlCNPJ($html){
 
   // caracteres que devem ser eliminados da resposta
@@ -529,7 +545,16 @@ public function parseHtmlCNPJ($html){
 
 }
 
-
+/**
+* Função para varrer o html do site da receita e transformar os dados requisitados em array
+*
+* @access public
+* @since v1.0
+* @uses self::parseHtmlCPF($html)
+*
+* @param String $html
+* @return Array
+*/
   public function parseHtmlCPF($html){
 
     $caract_especiais = array(
