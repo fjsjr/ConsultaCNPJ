@@ -22,7 +22,6 @@
                   ______________________________________________________
                 </p>
 		</form>
-
         <form id="receita_cpf" name="receita_cpf" method="post" action="processa.php">
                 <p><span class="titleCats">CPF e Captcha</span>
                   <br />
@@ -45,6 +44,6 @@
                   _____________________________________________________
                 </p>
 
-        </form>
+        </form>-->
         </body>
 </html>
